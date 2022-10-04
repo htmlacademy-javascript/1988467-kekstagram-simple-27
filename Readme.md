@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм (простой)»
 
 * Студент: [Юлия Антошкина](https://up.htmlacademy.ru/javascript/27/user/1988467).
-* Наставник: Arthur Litovko.
+* Наставник: [Arthur Litovko](https://github.com/baileys-li).
 
 ---
 
