@@ -48,15 +48,18 @@ function getRandomArrayElement(elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
-const usersPhoto = Array.from({length: OBJ_COUNT}, (funk, index) => {
-  const createObject = {
-    id: index,
-    url: `photos/${index}.jpg`,
-    description: getRandomArrayElement(descriptionsArray),
-    likes: getRandomPositiveInteger(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
-    comments: getRandomPositiveInteger(MIN_NUMBER_COMMENTS, MAX_NUMBER_COMMENTS),
-  };
-  return createObject;
-});
+function getUserPhotos () {
+  const userPhotos = Array.from({length: OBJ_COUNT}, (funk, index) => {
+    const createObject = {
+      id: index,
+      url: `photos/${index}.jpg`,
+      description: getRandomArrayElement(descriptionsArray),
+      likes: getRandomPositiveInteger(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
+      comments: getRandomPositiveInteger(MIN_NUMBER_COMMENTS, MAX_NUMBER_COMMENTS),
+    };
+    return createObject;
+  });
+  return userPhotos;
+}
 
-console.log(usersPhoto);
+getUserPhotos();
