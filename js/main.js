@@ -51,8 +51,8 @@ function getRandomArrayElement(elements) {
 function getUserPhotos () {
   const userPhotos = Array.from({length: OBJ_COUNT}, (funk, index) => {
     const createObject = {
-      id: index,
-      url: `photos/${index}.jpg`,
+      id: index + 1,
+      url: `photos/${index + 1}.jpg`,
       description: getRandomArrayElement(descriptionsArray),
       likes: getRandomPositiveInteger(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
       comments: getRandomPositiveInteger(MIN_NUMBER_COMMENTS, MAX_NUMBER_COMMENTS),
