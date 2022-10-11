@@ -1,25 +1,18 @@
-function getRandomNumber(a, b) {
+function getRandomPositiveInteger(a, b) {
   if (a < 0 || b < 0) {
     return NaN;
   }
-  if(!Number.isInteger(a) || !Number.isInteger(b)) {
-    return NaN;
-  }
-  if (a <= b) {
-    return Math.floor(Math.random() * (b - a + 1)) + a;
-  } else {
-    return Math.floor(Math.random() * (a - b + 1)) + b;
-  }
+
+  const min = Math.ceil(Math.min(a, b));
+  const max = Math.floor(Math.max(a, b));
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-getRandomNumber(5, 3);
+getRandomPositiveInteger(5, 3);
 
-function checkCommentLength(comment, maxLength = 140, minLength = 20) {
-  if (comment.length < minLength || comment.length > maxLength) {
-    return false;
-  } else {
-    return true;
-  }
+function checkStringLength(comment, maxLength = 140, minLength = 20) {
+  return comment.length >= minLength && comment.length <= maxLength;
 }
 
-checkCommentLength('Функция для проверки максимальной длины строки');
+checkStringLength('Функция для проверки максимальной длины строки');
