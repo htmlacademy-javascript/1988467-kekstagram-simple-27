@@ -22,7 +22,7 @@ const MIN_NUMBER_COMMENTS = 0;
 const MAX_NUMBER_COMMENTS = 200;
 const MIN_NUMBER_LIKES = 15;
 const MAX_NUMBER_LIKES = 200;
-const OBJ_COUNT = 25;
+const PHOTO_COUNT = 25;
 
 const descriptionsArray = [
   'Сбалансированная диета — это печенье в каждой руке',
@@ -49,10 +49,10 @@ function getRandomArrayElement(elements) {
 }
 
 function getUserPhotos () {
-  const userPhotos = Array.from({length: OBJ_COUNT}, (funk, index) => {
+  const userPhotos = Array.from({length: PHOTO_COUNT}, (_, index) => {
     const createObject = {
-      id: index,
-      url: `photos/${index}.jpg`,
+      id: index + 1,
+      url: `photos/${this.id}.jpg`,
       description: getRandomArrayElement(descriptionsArray),
       likes: getRandomPositiveInteger(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
       comments: getRandomPositiveInteger(MIN_NUMBER_COMMENTS, MAX_NUMBER_COMMENTS),
