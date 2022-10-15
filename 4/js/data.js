@@ -45,3 +45,5 @@ function getUserPhotos () {
 }
 
 getUserPhotos();
+
+export {getUserPhotos};
