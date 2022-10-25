@@ -17,4 +17,18 @@ function checkStringLength(comment, maxLength = 140, minLength = 20) {
 
 checkStringLength('Функция для проверки максимальной длины строки');
 
-export {getRandomPositiveInteger, checkStringLength};
+function getShuffledArray(from, to) {
+  const array = [];
+
+  for (let i = from; i <= to; i++) {
+    array.push(i);
+  }
+
+  const shaffledArray = [];
+  for (let j = 1; j <= (to - from + 1); j++) {
+    shaffledArray.push(array.splice(Math.random() * array.length, 1)[0]);
+  }
+  return shaffledArray;
+}
+
+export {getRandomPositiveInteger, checkStringLength, getShuffledArray};
