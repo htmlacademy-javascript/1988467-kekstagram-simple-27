@@ -1,4 +1,4 @@
-import {getRandomPositiveInteger} from './util.js';
+import {getRandomPositiveInteger, getShuffledArray} from './util.js';
 
 const MIN_NUMBER_COMMENTS = 0;
 const MAX_NUMBER_COMMENTS = 200;
@@ -31,10 +31,11 @@ function getRandomArrayElement(elements) {
 }
 
 function getUserPhotos () {
+  const photoNumbers = getShuffledArray(1, PHOTO_COUNT);
   const userPhotos = Array.from({length: PHOTO_COUNT}, (_, index) => {
     const createObject = {
-      id: index + 1,
-      url: `photos/${index + 1}.jpg`,
+      id: photoNumbers[index],
+      url: `photos/${photoNumbers[index]}.jpg`,
       description: getRandomArrayElement(descriptionsArray),
       likes: getRandomPositiveInteger(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
       comments: getRandomPositiveInteger(MIN_NUMBER_COMMENTS, MAX_NUMBER_COMMENTS),
@@ -43,7 +44,5 @@ function getUserPhotos () {
   });
   return userPhotos;
 }
-
-getUserPhotos();
 
 export {getUserPhotos};
