@@ -710,6 +710,12 @@ main {
   border-radius: 5px;
 }
 
+.warning-message {
+  font-size: 10px;
+  margin: auto;
+  width: 450px;
+}
+
 
 /**
   * Кнопка для отправки изображения
