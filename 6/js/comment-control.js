@@ -1,45 +1,65 @@
-import { checkStringLength } from './util.js';
-
 const commentField = document.querySelector('.text__description');
 const submitButton = document.querySelector('.img-upload__submit');
+const commentWrapper = commentField.parentElement;
 
-commentField.setAttribute('required', true);
+const warningMessage = document.createElement('div');
+warningMessage.classList.add('warning-message');
 
+const pluralRuleSelector = new Intl.PluralRules('ru');
+const charactersToWord = {
+  one: 'символ',
+  few: 'символа',
+  many: 'символов',
+  other: 'символов'
+};
+let charsLeft = 0;
 
-function addCommentController() {
+commentField.addEventListener('input', checkCommentValidation);
 
-  createWarningPlaceholder();
+function checkCommentValidation() {
+  const { valueMissing, tooShort, tooLong } = commentField.validity;
+  const isInvalid = valueMissing | tooShort | tooLong;
 
-  commentField.oninput = function () {
+  commentField.setAttribute('area-invalid', String(isInvalid));
 
-    displayWarningMessage(commentField.value.length);
+  if (isInvalid) {
+    commentField.style.outline = '4px solid #ff0000';
 
-    if (checkStringLength(commentField.value)) {
-      commentField.style.border = '4px solid transparent';
-      submitButton.disabled = false;
-    } else {
-      commentField.style.border = '4px solid #ff0000';
-      submitButton.disabled = true;
+    if (tooLong) {
+      commentField.setCustomValidity('Комментарий должен быть не более 140 символов.');
     }
-  };
+
+    if (tooShort) {
+      charsLeft = commentField.minLength - commentField.value.length;
+      const amountCharacters = pluralRuleSelector.select(charsLeft);
+      commentField.setCustomValidity(`Комментарий слишком короткий. Введите еще ${charsLeft} ${charactersToWord[amountCharacters]}.`);
+    }
+
+    if (valueMissing) {
+      commentField.setCustomValidity('Комментарий к фото обязателен!');
+    }
+  } else {
+    commentField.setCustomValidity('');
+    commentField.style.removeProperty('outline');
+  }
+
+  displayWarningMessage(commentField.validationMessage);
+
+  submitButton.disabled = isInvalid;
+}
+
+function clearErrorMessage() {
+  warningMessage.textContent = '';
 }
 
 
-function displayWarningMessage(numberOfChars) {
-  const warningMessage = document.querySelector('.warning-message');
-  warningMessage.textContent = `Сообщение не может быть менее 20 символов и более 140 символов.
-  Длина сообщения: ${numberOfChars}`;
+function displayWarningMessage(errorMessage) {
+  if (errorMessage.length) {
+    warningMessage.textContent = errorMessage;
+    commentWrapper.append(warningMessage);
+  } else {
+    warningMessage.remove();
+  }
 }
 
-function createWarningPlaceholder() {
-  const warningMessage = document.createElement('div');
-  warningMessage.style.fontSize = '10px';
-  warningMessage.classList.add('warning-message');
-  warningMessage.style.margin = 'auto';
-  warningMessage.style.width = '450px';
-
-  const imgComment = document.querySelector('.img-upload__text');
-  imgComment.append(warningMessage);
-}
-
-export { addCommentController };
+export { clearErrorMessage };
