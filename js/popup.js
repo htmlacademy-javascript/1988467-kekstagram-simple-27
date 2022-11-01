@@ -1,41 +1,43 @@
 import { addZoomController } from './zoom-control.js';
 import { addEffectsController, removeEffectsController } from './apply-effects.js';
-import { addCommentController } from './comment-control.js';
+import { clearErrorMessage } from './comment-control.js';
 
-const form = document.querySelector('.img-upload__form');
+const { body } = document;
+const form = body.querySelector('.img-upload__form');
 const imgUploadPopup = form.querySelector('.img-upload__overlay');
 const uploadFileInput = form.querySelector('.img-upload__input');
-const body = document.querySelector('body');
-const imgUploadCancel = form.querySelector('.img-upload__cancel');
+
+form.addEventListener('reset', closeImagePopup);
+uploadFileInput.addEventListener('change', openImagePopup);
 
 function onPopupEscKeydown(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    closeImagePopup();
+    form.reset();
   }
 }
 
 function openImagePopup() {
-  imgUploadPopup.classList.remove('hidden');
-  body.classList.add('modal-open');
+  toggleClasses(true);
 
   document.addEventListener('keydown', onPopupEscKeydown);
   addZoomController();
   addEffectsController();
-  addCommentController();
+  clearErrorMessage();
 }
 
-uploadFileInput.addEventListener('change', openImagePopup);
 
 function closeImagePopup() {
-  imgUploadPopup.classList.add('hidden');
-  body.classList.remove('modal-open');
-  uploadFileInput.value = '';
+  toggleClasses(false);
 
   document.removeEventListener('keydown', onPopupEscKeydown);
   removeEffectsController();
+  form.reset();
 }
 
-imgUploadCancel.addEventListener('click', closeImagePopup);
+function toggleClasses(toOpen = true) {
+  imgUploadPopup.classList.toggle('hidden', !toOpen);
+  body.classList.toggle('modal-open', toOpen);
+}
 
 
