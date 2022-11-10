@@ -3,6 +3,7 @@ const imageUploadPreview = document.querySelector('.img-upload__preview');
 const image = imageUploadPreview.querySelector('img');
 
 const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevelStorage = document.querySelector('.effect-level__value');
 let effectLevel = 0;
 
 let effectValue;
@@ -109,6 +110,7 @@ function addEffectsController() {
 
     sliderElement.noUiSlider.on('update', () => {
       effectLevel = sliderElement.noUiSlider.get();
+      effectLevelStorage.value = effectLevel;
       image.style.filter = effectSettings ? effectSettings.effect(effectLevel) : '';
     });
 
