@@ -1,5 +1,5 @@
 import { addZoomController } from './zoom-control.js';
-import { addEffectsController, removeEffectsController } from './apply-effects.js';
+import { addEffectsController, restEffects } from './apply-effects.js';
 import { clearErrorMessage } from './comment-control.js';
 
 const { body } = document;
@@ -31,7 +31,7 @@ function closeImagePopup() {
   toggleClasses(false);
 
   document.removeEventListener('keydown', onPopupEscKeydown);
-  removeEffectsController();
+  restEffects();
   form.reset();
 }
 
