@@ -31,4 +31,5 @@ function getShuffledArray(from, to) {
   return shaffledArray;
 }
 
-export {getRandomPositiveInteger, checkStringLength, getShuffledArray};
+
+export { getRandomPositiveInteger, checkStringLength, getShuffledArray };
