@@ -1204,7 +1204,8 @@ main {
   */
 
 .error,
-.success {
+.success,
+.error-upload {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -1220,7 +1221,8 @@ main {
 }
 
 .error__inner,
-.success__inner {
+.success__inner,
+.error-upload__inner {
   position: relative;
   width: 600px;
   padding: 50px 20px;
@@ -1247,7 +1249,8 @@ main {
   padding-bottom: 75px;
 }
 
-.error__title {
+.error__title,
+.error-upload__title {
   position: relative;
 
   margin: 0;
@@ -1281,7 +1284,8 @@ main {
 }
 
 .error__button,
-.success__button {
+.success__button,
+.error-upload__button {
   padding: 5px 10px;
 
   color: #ffffff;
@@ -1295,12 +1299,15 @@ main {
 .error__button:hover,
 .error__button:focus,
 .success__button:hover,
-.success__button:focus {
+.success__button:focus,
+.error-upload__button:hover,
+.error-upload__button:focus {
   opacity: 0.8;
 }
 
 .error__button:active,
-.success__button:active {
+.success__button:active,
+.error-upload__button:active {
   opacity: 0.6;
 }
 

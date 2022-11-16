@@ -42,24 +42,47 @@ function addListenersCloseMessage(message) {
 }
 
 function showErrorUpload(message) {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = '100';
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = '0';
-  alertContainer.style.top = '0';
-  alertContainer.style.right = '0';
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = 'red';
+  const errorUpload = document.createElement('section');
+  errorUpload.classList.add('error-upload');
 
-  alertContainer.textContent = message;
+  const errorUploadInner = document.createElement('div');
+  errorUploadInner.classList.add('error-upload__inner');
+  errorUploadInner.style.backgroundColor = 'white';
+  errorUploadInner.style.paddingTop = '40px';
+  errorUploadInner.style.color = '#232321';
 
-  body.append(alertContainer);
+  const errorUploadContainer = document.createElement('div');
+  errorUploadContainer.classList.add('error-upload__container');
+  errorUploadContainer.style.display = 'flex';
 
-  setTimeout(() => {
-    alertContainer.remove();
-  }, 5000);
+  const errorUploadImage = document.createElement('img');
+  errorUploadImage.classList.add('error-upload__image');
+  errorUploadImage.src = '../img/error-cat.jpg';
+  errorUploadImage.style.width = '200px';
+  errorUploadImage.style.height = '200px';
+
+  const errorUploadTitle = document.createElement('h2');
+  errorUploadTitle.classList.add('error-upload__title');
+  errorUploadTitle.textContent = message;
+  errorUploadTitle.style.lineHeight = '36px';
+  errorUploadTitle.style.margin = 'auto';
+  errorUploadTitle.style.fontSize = '28px';
+
+
+  const errorUploadButton = document.createElement('button');
+  errorUploadButton.classList.add('error-upload__button');
+  errorUploadButton.textContent = 'Да!';
+  errorUploadButton.style.color = '#232321';
+  errorUploadButton.style.border = '2px solid #232321';
+
+  body.append(errorUpload);
+  errorUpload.append(errorUploadInner);
+  errorUploadInner.append(errorUploadContainer);
+  errorUploadContainer.append(errorUploadImage);
+  errorUploadContainer.append(errorUploadTitle);
+  errorUploadInner.append(errorUploadButton);
+
+  addListenersCloseMessage(errorUpload);
 }
 
 export { showErrorUpload, addListenersCloseMessage, showMessage };
