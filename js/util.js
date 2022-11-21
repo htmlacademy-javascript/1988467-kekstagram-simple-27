@@ -12,4 +12,4 @@ function getModalState() {
   return modalState;
 }
 
-export { modalState, setModalState, resetModalState, getModalState };
+export { setModalState, resetModalState, getModalState };
