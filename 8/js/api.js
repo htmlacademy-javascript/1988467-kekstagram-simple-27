@@ -1,31 +1,31 @@
 import { renderPhotos } from './upload-photo.js';
 import { showErrorUpload } from './loading-messages.js';
 
+const ERROR_MESSAGE = 'Фотографии других пользователей не загрузились... Хочешь попробовать еще раз?';
+const BASE_URL = 'https://27.javascript.pages.academy/kekstagram-simple';
+
 function getPhotos(onSuccess, onFail) {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple/data')
+  fetch(`${BASE_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        onFail('Фотографии других пользователей не загрузились... Хочешь попробовать еще раз?');
+        onFail(ERROR_MESSAGE);
       }
     })
     .then((data) => {
       onSuccess(data);
     })
     .catch(() => {
-      onFail('Фотографии других пользователей не загрузились... Хочешь попробовать еще раз?');
+      onFail(ERROR_MESSAGE);
     });
 }
 
 
 function sendPhoto(onSuccess, onFail, body) {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple',
+  fetch(BASE_URL,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body,
     },
   )
