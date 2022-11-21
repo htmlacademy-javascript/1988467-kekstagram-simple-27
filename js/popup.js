@@ -3,7 +3,7 @@ import { addEffectsController, restEffects } from './apply-effects.js';
 import { clearErrorMessage } from './comment-control.js';
 import { sendPhoto } from './api.js';
 import { showMessage } from './loading-messages.js';
-import { modalState, setModalState, resetModalState } from './util.js';
+import { getModalState, setModalState, resetModalState } from './util.js';
 
 const { body } = document;
 const form = body.querySelector('.img-upload__form');
@@ -16,6 +16,7 @@ form.addEventListener('reset', onCloseImagePopup);
 uploadFileInput.addEventListener('change', onOpenImagePopup);
 
 function onPopupEscKeydown(evt) {
+  const modalState = getModalState();
   if (evt.key === 'Escape' && modalState === 'upload') {
     evt.preventDefault();
     restEffects();

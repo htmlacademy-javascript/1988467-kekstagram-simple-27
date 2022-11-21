@@ -8,5 +8,8 @@ function resetModalState() {
   modalState = null;
 }
 
+function getModalState() {
+  return modalState;
+}
 
-export { modalState, setModalState, resetModalState };
+export { modalState, setModalState, resetModalState, getModalState };
