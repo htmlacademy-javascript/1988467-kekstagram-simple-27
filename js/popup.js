@@ -2,42 +2,48 @@ import { addZoomController } from './zoom-control.js';
 import { addEffectsController, restEffects } from './apply-effects.js';
 import { clearErrorMessage } from './comment-control.js';
 import { sendPhoto } from './api.js';
-import { addListenersCloseMessage, showMessage } from './loading-messages.js';
+import { showMessage } from './loading-messages.js';
+import { modalState, setModalState, resetModalState } from './util.js';
 
 const { body } = document;
 const form = body.querySelector('.img-upload__form');
 const imgUploadPopup = form.querySelector('.img-upload__overlay');
 const uploadFileInput = form.querySelector('.img-upload__input');
 const submitButton = form.querySelector('.img-upload__submit');
-const errorMessage = body.querySelector('.error');
-const successMessage = body.querySelector('.success');
 
-form.addEventListener('reset', closeImagePopup);
-uploadFileInput.addEventListener('change', openImagePopup);
+
+form.addEventListener('reset', onCloseImagePopup);
+uploadFileInput.addEventListener('change', onOpenImagePopup);
 
 function onPopupEscKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && modalState === 'upload') {
     evt.preventDefault();
+    restEffects();
     form.reset();
+    resetModalState();
   }
 }
 
-function openImagePopup() {
+function onOpenImagePopup() {
   toggleClasses(true);
 
   document.addEventListener('keydown', onPopupEscKeydown);
   addZoomController();
   addEffectsController();
   clearErrorMessage();
+
+  setModalState('upload');
 }
 
 
-function closeImagePopup() {
+function onCloseImagePopup() {
   toggleClasses(false);
 
   document.removeEventListener('keydown', onPopupEscKeydown);
   restEffects();
   form.reset();
+
+  resetModalState();
 }
 
 function toggleClasses(toOpen = true) {
@@ -57,30 +63,27 @@ function unblockSubmitButton() {
 }
 
 
-function setUserFormSubmit(onSuccess) {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
-    // const isValid = form.validity;
+  const isValid = form.reportValidity();
 
-    // if (isValid) {
+  if (isValid) {
+
+    const data = new FormData(form);
     blockSubmitButton();
     sendPhoto(
       () => {
-        onSuccess();
-        showMessage(successMessage);
+        onCloseImagePopup();
+        showMessage('success');
         unblockSubmitButton();
-        addListenersCloseMessage(successMessage);
       },
       () => {
-        showMessage(errorMessage);
-        addListenersCloseMessage(errorMessage);
+        showMessage('error');
         unblockSubmitButton();
       },
-      new FormData(evt.target),
+      data,
     );
-    // }
-  });
-}
+  }
+});
 
-setUserFormSubmit(closeImagePopup);

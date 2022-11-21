@@ -1,19 +1,43 @@
+import { setModalState } from './util.js';
+
 const body = document.body;
 const errorMessage = document.querySelector('#error').content.querySelector('.error');
 const successMessage = document.querySelector('#success').content.querySelector('.success');
 
-const messagesContainer = document.createDocumentFragment();
 
-successMessage.classList.add('hidden');
-errorMessage.classList.add('hidden');
+function showMessage(message = 'error') {
+  const modal = (message === 'success' ? successMessage : errorMessage).cloneNode(true);
+  const button = modal.querySelector('button');
 
-messagesContainer.append(successMessage.cloneNode(true));
-messagesContainer.append(errorMessage.cloneNode(true));
+  modal.addEventListener('click', onClickClose);
 
-body.append(messagesContainer);
 
-function showMessage(message) {
-  message.classList.remove('hidden');
+  document.addEventListener('keydown', onKeydownClose);
+
+
+  function closeModal() {
+    modal.remove();
+    modal.removeEventListener('click', onClickClose);
+    document.removeEventListener('keydown', onKeydownClose);
+    setModalState('upload');
+  }
+
+  function onClickClose(evt) {
+    if (evt.target === modal || evt.target === button) {
+      closeModal();
+    }
+  }
+
+  function onKeydownClose(evt) {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      closeModal();
+    }
+  }
+
+  body.append(modal);
+
+  setModalState('alert');
 }
 
 function hideMessage(message) {
@@ -85,4 +109,4 @@ function showErrorUpload(message) {
   addListenersCloseMessage(errorUpload);
 }
 
-export { showErrorUpload, addListenersCloseMessage, showMessage };
+export { showErrorUpload, showMessage };

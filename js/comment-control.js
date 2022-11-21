@@ -14,9 +14,9 @@ const charactersToWord = {
 };
 let charsLeft = 0;
 
-commentField.addEventListener('input', checkCommentValidation);
+commentField.addEventListener('input', onCheckCommentValidation);
 
-function checkCommentValidation() {
+function onCheckCommentValidation() {
   const { valueMissing, tooShort, tooLong } = commentField.validity;
   const isInvalid = valueMissing | tooShort | tooLong;
 
