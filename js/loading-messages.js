@@ -5,28 +5,22 @@ const errorMessage = document.querySelector('#error').content.querySelector('.er
 const successMessage = document.querySelector('#success').content.querySelector('.success');
 
 
-function showMessage(message = 'error') {
+const showMessage = (message = 'error') => {
   const modal = (message === 'success' ? successMessage : errorMessage).cloneNode(true);
   const button = modal.querySelector('button');
 
-  modal.addEventListener('click', onClickClose);
-
-
-  document.addEventListener('keydown', onKeydownClose);
-
-
-  function closeModal() {
+  const closeModal = () => {
     modal.remove();
-    modal.removeEventListener('click', onClickClose);
+
     document.removeEventListener('keydown', onKeydownClose);
     setModalState('upload');
-  }
+  };
 
-  function onClickClose(evt) {
+  const onClickClose = (evt) => {
     if (evt.target === modal || evt.target === button) {
       closeModal();
     }
-  }
+  };
 
   function onKeydownClose(evt) {
     if (evt.key === 'Escape') {
@@ -35,17 +29,21 @@ function showMessage(message = 'error') {
     }
   }
 
+
+  modal.addEventListener('click', onClickClose);
+  document.addEventListener('keydown', onKeydownClose);
+
   body.append(modal);
 
   setModalState('alert');
-}
+};
 
-function hideMessage(message) {
+const hideMessage = (message) => {
   message.classList.add('hidden');
-}
+};
 
 
-function addListenersCloseMessage(message) {
+const addListenersCloseMessage = (message) => {
   const button = message.querySelector('button');
   button.addEventListener('click', () => {
     hideMessage(message);
@@ -63,9 +61,9 @@ function addListenersCloseMessage(message) {
       hideMessage(message);
     }
   });
-}
+};
 
-function showErrorUpload(message) {
+const showErrorUpload = (message) => {
   const errorUpload = document.createElement('section');
   errorUpload.classList.add('error-upload');
 
@@ -107,6 +105,6 @@ function showErrorUpload(message) {
   errorUploadInner.append(errorUploadButton);
 
   addListenersCloseMessage(errorUpload);
-}
+};
 
 export { showErrorUpload, showMessage };

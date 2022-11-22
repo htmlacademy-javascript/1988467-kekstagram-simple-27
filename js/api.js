@@ -4,7 +4,7 @@ import { showErrorUpload } from './loading-messages.js';
 const ERROR_MESSAGE = 'Фотографии других пользователей не загрузились... Хочешь попробовать еще раз?';
 const BASE_URL = 'https://27.javascript.pages.academy/kekstagram-simple';
 
-function getPhotos(onSuccess, onFail) {
+const getPhotos = (onSuccess, onFail) => {
   fetch(`${BASE_URL}/data`)
     .then((response) => {
       if (response.ok) {
@@ -19,10 +19,10 @@ function getPhotos(onSuccess, onFail) {
     .catch(() => {
       onFail(ERROR_MESSAGE);
     });
-}
+};
 
 
-function sendPhoto(onSuccess, onFail, body) {
+const sendPhoto = (onSuccess, onFail, body) => {
   fetch(BASE_URL,
     {
       method: 'POST',
@@ -39,7 +39,7 @@ function sendPhoto(onSuccess, onFail, body) {
     .catch(() => {
       onFail('Не удалось загрузить фото.');
     });
-}
+};
 
 getPhotos(renderPhotos, showErrorUpload);
 

@@ -1,15 +1,13 @@
 let modalState = null;
 
-function setModalState(key) {
+const setModalState = (key) => {
   modalState = key;
-}
+};
 
-function resetModalState() {
+const resetModalState = () => {
   modalState = null;
-}
+};
 
-function getModalState() {
-  return modalState;
-}
+const getModalState = () => modalState;
 
 export { setModalState, resetModalState, getModalState };

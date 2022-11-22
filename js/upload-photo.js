@@ -1,4 +1,4 @@
-function renderPhotos(photos) {
+const renderPhotos = (photos) => {
   const templatePicture = document.querySelector('#picture').content.querySelector('.picture');
   const picturesContainer = document.querySelector('.pictures');
 
@@ -13,7 +13,7 @@ function renderPhotos(photos) {
   });
 
   picturesContainer.append(picturesListFragment);
-}
+};
 
 
 export { renderPhotos };

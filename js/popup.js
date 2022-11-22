@@ -12,10 +12,13 @@ const uploadFileInput = form.querySelector('.img-upload__input');
 const submitButton = form.querySelector('.img-upload__submit');
 
 
-form.addEventListener('reset', onCloseImagePopup);
-uploadFileInput.addEventListener('change', onOpenImagePopup);
+const toggleClasses = (toOpen = true) => {
+  imgUploadPopup.classList.toggle('hidden', !toOpen);
+  body.classList.toggle('modal-open', toOpen);
+};
 
-function onPopupEscKeydown(evt) {
+
+const onPopupEscKeydown = (evt) => {
   const modalState = getModalState();
   if (evt.key === 'Escape' && modalState === 'upload') {
     evt.preventDefault();
@@ -23,9 +26,9 @@ function onPopupEscKeydown(evt) {
     form.reset();
     resetModalState();
   }
-}
+};
 
-function onOpenImagePopup() {
+const onOpenImagePopup = () => {
   toggleClasses(true);
 
   document.addEventListener('keydown', onPopupEscKeydown);
@@ -34,10 +37,11 @@ function onOpenImagePopup() {
   clearErrorMessage();
 
   setModalState('upload');
-}
+};
 
+uploadFileInput.addEventListener('change', onOpenImagePopup);
 
-function onCloseImagePopup() {
+const onCloseImagePopup = () => {
   toggleClasses(false);
 
   document.removeEventListener('keydown', onPopupEscKeydown);
@@ -45,23 +49,20 @@ function onCloseImagePopup() {
   form.reset();
 
   resetModalState();
-}
+};
 
-function toggleClasses(toOpen = true) {
-  imgUploadPopup.classList.toggle('hidden', !toOpen);
-  body.classList.toggle('modal-open', toOpen);
-}
+form.addEventListener('reset', onCloseImagePopup);
 
 
-function blockSubmitButton() {
+const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Публикую...';
-}
+};
 
-function unblockSubmitButton() {
+const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-}
+};
 
 
 form.addEventListener('submit', (evt) => {
