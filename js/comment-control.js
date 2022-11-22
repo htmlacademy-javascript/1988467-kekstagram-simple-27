@@ -14,9 +14,18 @@ const charactersToWord = {
 };
 let charsLeft = 0;
 
-commentField.addEventListener('input', onCheckCommentValidation);
 
-function onCheckCommentValidation() {
+const displayWarningMessage = (errorMessage) => {
+  if (errorMessage.length) {
+    warningMessage.textContent = errorMessage;
+    commentWrapper.append(warningMessage);
+  } else {
+    warningMessage.remove();
+  }
+};
+
+
+const onCheckCommentValidation = () => {
   const { valueMissing, tooShort, tooLong } = commentField.validity;
   const isInvalid = valueMissing | tooShort | tooLong;
 
@@ -46,20 +55,15 @@ function onCheckCommentValidation() {
   displayWarningMessage(commentField.validationMessage);
 
   submitButton.disabled = isInvalid;
-}
+};
 
-function clearErrorMessage() {
+
+commentField.addEventListener('input', onCheckCommentValidation);
+
+
+const clearErrorMessage = () => {
   warningMessage.textContent = '';
-}
+};
 
-
-function displayWarningMessage(errorMessage) {
-  if (errorMessage.length) {
-    warningMessage.textContent = errorMessage;
-    commentWrapper.append(warningMessage);
-  } else {
-    warningMessage.remove();
-  }
-}
 
 export { clearErrorMessage };

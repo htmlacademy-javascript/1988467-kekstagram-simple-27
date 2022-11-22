@@ -1,12 +1,22 @@
 const form = document.querySelector('.img-upload__form');
 const effectsList = form.querySelector('.effects__list');
 const image = form.querySelector('.img-upload__preview img');
+const sliderContainer = form.querySelector('.img-upload__effect-level');
 
 const sliderElement = form.querySelector('.effect-level__slider');
 const effectLevelStorage = form.querySelector('.effect-level__value');
 let effectLevel = 0;
 
 sliderElement.hidden = true;
+sliderContainer.hidden = true;
+
+const createSliderOption = (min = 0, max = 100, step = 1) => (
+  {
+    range: { min, max },
+    start: max,
+    step,
+  }
+);
 
 const EFFECT_SETTING_MAP = {
   none: {
@@ -55,11 +65,12 @@ sliderElement.noUiSlider.on('update', () => {
 });
 
 
-function addEffectsController() {
+const addEffectsController = () => {
   effectsList.addEventListener('input', () => {
     const effectValue = form.effect.value;
 
     sliderElement.hidden = effectValue === 'none';
+    sliderContainer.hidden = effectValue === 'none';
 
     image.className = '';
     image.classList.add(`effects__preview--${effectValue}`);
@@ -67,25 +78,19 @@ function addEffectsController() {
     const effectSettings = EFFECT_SETTING_MAP[effectValue];
     sliderElement.noUiSlider.updateOptions(effectSettings.sliderOptions);
   });
-}
+};
 
 
 /** для удаления эффектов у картинки */
-function restEffects() {
+const resetEffects = () => {
   image.className = '';
   sliderElement.noUiSlider.updateOptions({
     ...EFFECT_SETTING_MAP.none.sliderOptions,
   });
   image?.style.removeProperty('filter');
   sliderElement.hidden = true;
-}
+  sliderContainer.hidden = true;
+};
 
-function createSliderOption(min = 0, max = 100, step = 1) {
-  return {
-    range: { min, max },
-    start: max,
-    step,
-  };
-}
 
-export { addEffectsController, restEffects };
+export { addEffectsController, resetEffects };

@@ -1,5 +1,5 @@
 import { addZoomController } from './zoom-control.js';
-import { addEffectsController, restEffects } from './apply-effects.js';
+import { addEffectsController, resetEffects } from './apply-effects.js';
 import { clearErrorMessage } from './comment-control.js';
 import { sendPhoto } from './api.js';
 import { showMessage } from './loading-messages.js';
@@ -12,20 +12,21 @@ const uploadFileInput = form.querySelector('.img-upload__input');
 const submitButton = form.querySelector('.img-upload__submit');
 
 
-form.addEventListener('reset', onCloseImagePopup);
-uploadFileInput.addEventListener('change', onOpenImagePopup);
+const toggleClasses = (toOpen = true) => {
+  imgUploadPopup.classList.toggle('hidden', !toOpen);
+  body.classList.toggle('modal-open', toOpen);
+};
 
-function onPopupEscKeydown(evt) {
+
+const onPopupEscKeydown = (evt) => {
   const modalState = getModalState();
   if (evt.key === 'Escape' && modalState === 'upload') {
     evt.preventDefault();
-    restEffects();
     form.reset();
-    resetModalState();
   }
-}
+};
 
-function onOpenImagePopup() {
+const onOpenImagePopup = () => {
   toggleClasses(true);
 
   document.addEventListener('keydown', onPopupEscKeydown);
@@ -34,34 +35,31 @@ function onOpenImagePopup() {
   clearErrorMessage();
 
   setModalState('upload');
-}
+};
 
+uploadFileInput.addEventListener('change', onOpenImagePopup);
 
-function onCloseImagePopup() {
+const onResetForm = () => {
   toggleClasses(false);
 
   document.removeEventListener('keydown', onPopupEscKeydown);
-  restEffects();
+  resetEffects();
   form.reset();
-
   resetModalState();
-}
+};
 
-function toggleClasses(toOpen = true) {
-  imgUploadPopup.classList.toggle('hidden', !toOpen);
-  body.classList.toggle('modal-open', toOpen);
-}
+form.addEventListener('reset', onResetForm);
 
 
-function blockSubmitButton() {
+const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = 'Публикую...';
-}
+};
 
-function unblockSubmitButton() {
+const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
-}
+};
 
 
 form.addEventListener('submit', (evt) => {
@@ -75,7 +73,7 @@ form.addEventListener('submit', (evt) => {
     blockSubmitButton();
     sendPhoto(
       () => {
-        onCloseImagePopup();
+        onResetForm();
         showMessage('success');
         unblockSubmitButton();
       },
