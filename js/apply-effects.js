@@ -82,7 +82,7 @@ const addEffectsController = () => {
 
 
 /** для удаления эффектов у картинки */
-const restEffects = () => {
+const resetEffects = () => {
   image.className = '';
   sliderElement.noUiSlider.updateOptions({
     ...EFFECT_SETTING_MAP.none.sliderOptions,
@@ -93,4 +93,4 @@ const restEffects = () => {
 };
 
 
-export { addEffectsController, restEffects };
+export { addEffectsController, resetEffects };

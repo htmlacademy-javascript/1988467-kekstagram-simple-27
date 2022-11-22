@@ -1,5 +1,5 @@
 import { addZoomController } from './zoom-control.js';
-import { addEffectsController, restEffects } from './apply-effects.js';
+import { addEffectsController, resetEffects } from './apply-effects.js';
 import { clearErrorMessage } from './comment-control.js';
 import { sendPhoto } from './api.js';
 import { showMessage } from './loading-messages.js';
@@ -22,9 +22,7 @@ const onPopupEscKeydown = (evt) => {
   const modalState = getModalState();
   if (evt.key === 'Escape' && modalState === 'upload') {
     evt.preventDefault();
-    restEffects();
     form.reset();
-    resetModalState();
   }
 };
 
@@ -41,17 +39,16 @@ const onOpenImagePopup = () => {
 
 uploadFileInput.addEventListener('change', onOpenImagePopup);
 
-const onCloseImagePopup = () => {
+const onResetForm = () => {
   toggleClasses(false);
 
   document.removeEventListener('keydown', onPopupEscKeydown);
-  restEffects();
+  resetEffects();
   form.reset();
-
   resetModalState();
 };
 
-form.addEventListener('reset', onCloseImagePopup);
+form.addEventListener('reset', onResetForm);
 
 
 const blockSubmitButton = () => {
@@ -76,7 +73,7 @@ form.addEventListener('submit', (evt) => {
     blockSubmitButton();
     sendPhoto(
       () => {
-        onCloseImagePopup();
+        onResetForm();
         showMessage('success');
         unblockSubmitButton();
       },
